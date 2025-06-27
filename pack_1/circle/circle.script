@@ -1,0 +1,114 @@
+// Screen size
+screen.w      = Window.GetWidth(0);
+screen.h      = Window.GetHeight(0);
+screen.half.w = screen.w / 2;
+screen.half.h = screen.h / 2;
+
+// Text prompts
+question = null; answer = null;
+message  = null;
+bullets  = null; prompt = null;
+bullet.image = Image.Text("*", 1, 1, 1);
+
+// Flow state
+state.status = "play";
+state.time   = 0.0;
+
+// 1. Gradient background
+Window.SetBackgroundTopColor   (0.00, 0.00, 0.00);  // Pure black
+Window.SetBackgroundBottomColor(0.04, 0.00, 0.12);  // Very dark indigo/purple
+
+// 2. Load spinner frames
+for (i = 0; i < 101; i++) {
+    flyingman_image[i] = Image("progress-" + i + ".png");
+}
+flyingman_sprite = Sprite();
+// center spinner
+spinner_w = flyingman_image[0].GetWidth();
+spinner_h = flyingman_image[0].GetHeight();
+flyingman_sprite.SetX(screen.half.w - spinner_w / 2);
+flyingman_sprite.SetY(screen.half.h - spinner_h / 2);
+// spinner above logo
+flyingman_sprite.SetZ(15);
+
+// 3. Load and position your logo lower on screen
+logo_image  = Image("magic-unicorn-faint.png");
+logo_sprite = Sprite(logo_image);
+logo_w = logo_image.GetWidth();
+logo_h = logo_image.GetHeight();
+// center horizontally
+logo_sprite.SetX(screen.half.w - logo_w / 2);
+// place at 80% of screen height (so it sits well below center)
+logo_sprite.SetY(screen.h * 0.8 - logo_h / 2);
+// logo beneath spinner
+logo_sprite.SetZ(10);
+
+// 4a. Fallback timer for plymouth --show-splash
+progress = 0;
+fun refresh_callback() {
+    flyingman_sprite.SetImage(
+        flyingman_image[Math.Int(progress/2) % 101]
+    );
+    progress++;
+}
+Plymouth.SetRefreshFunction(refresh_callback);
+
+// 4b. Real boot‐progress mapping
+fun boot_progress_callback(elapsed, fraction) {
+    idx = Math.Int(fraction * (flyingman_image.Length - 1));
+    flyingman_sprite.SetImage(flyingman_image[idx]);
+}
+Plymouth.SetBootProgressFunction(boot_progress_callback);
+
+// 5. Prompts & messages (always on top)
+fun DisplayQuestionCallback(text, entry) {
+    if (entry=="") entry="<answer>";
+    question.image  = Image.Text(text,1,1,1);
+    question.sprite = Sprite(question.image);
+    question.sprite.SetX(screen.half.w - question.image.GetWidth()/2);
+    question.sprite.SetY(screen.h      - 4*question.image.GetHeight());
+    question.sprite.SetZ(20);
+
+    answer.image  = Image.Text(entry,1,1,1);
+    answer.sprite = Sprite(answer.image);
+    answer.sprite.SetX(screen.half.w - answer.image.GetWidth()/2);
+    answer.sprite.SetY(screen.h      - 2*answer.image.GetHeight());
+    answer.sprite.SetZ(20);
+}
+Plymouth.SetDisplayQuestionFunction(DisplayQuestionCallback);
+
+fun DisplayPasswordCallback(nil, count) {
+    state.status = "pause";
+    totalW = count * bullet.image.GetWidth();
+    startX = screen.half.w - totalW/2;
+
+    prompt.image  = Image.Text("Enter Password",1,1,1);
+    prompt.sprite = Sprite(prompt.image);
+    prompt.sprite.SetX(screen.half.w - prompt.image.GetWidth()/2);
+    prompt.sprite.SetY(screen.h      - 4*prompt.image.GetHeight());
+    prompt.sprite.SetZ(20);
+
+    bullets = null;
+    for (i=0; i<count; i++) {
+        bullets[i].sprite = Sprite(bullet.image);
+        bullets[i].sprite.SetX(startX + i*bullet.image.GetWidth());
+        bullets[i].sprite.SetY(screen.h      - 2*bullet.image.GetHeight());
+        bullets[i].sprite.SetZ(20);
+    }
+}
+Plymouth.SetDisplayPasswordFunction(DisplayPasswordCallback);
+
+fun DisplayNormalCallback() {
+    state.status = "play";
+    bullets = prompt = message = question = answer = null;
+}
+Plymouth.SetDisplayNormalFunction(DisplayNormalCallback);
+
+fun MessageCallback(t) {
+    message.image  = Image.Text(t,1,1,1);
+    message.sprite = Sprite(message.image);
+    message.sprite.SetX(screen.half.w - message.image.GetWidth()/2);
+    message.sprite.SetY(message.image.GetHeight());
+    message.sprite.SetZ(20);
+}
+Plymouth.SetMessageFunction(MessageCallback);
