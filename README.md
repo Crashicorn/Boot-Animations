@@ -14,11 +14,11 @@ cd ~/PlymouthThemes
 
 # 1) Install the Plymouth packages Ubuntu actually provides
 sudo apt update
-sudo apt install -y plymouth plymouth-label plymouth-themes
+sudo apt install -y plymouth plymouth-label plymouth-themes plymouth-x11
 
 # 2) Copy the Circle theme into the system directory
 sudo rm -rf /usr/share/plymouth/themes/circle
-sudo cp -r circle /usr/share/plymouth/themes/
+sudo cp -r pack_1/circle /usr/share/plymouth/themes/
 
 # 3) Register & select “circle”
 sudo update-alternatives --install \
@@ -34,6 +34,8 @@ sudo update-initramfs -u
 # MANUALLY CHANGE THIS LINE if it already contains info between "")
 sudo sed -i 's|^GRUB_CMDLINE_LINUX_DEFAULT=.*|GRUB_CMDLINE_LINUX_DEFAULT="quiet splash"|' /etc/default/grub
 sudo update-grub
+
+# 6) Reboot for changes to take effect
 sudo reboot
 ```
 
