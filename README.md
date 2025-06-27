@@ -30,20 +30,11 @@ sudo update-alternatives --set default.plymouth \
 # 4) Rebuild initramfs
 sudo update-initramfs -u
 
-# 5) Preview (optional) then reboot
-sudo plymouthd && sudo plymouth --show-splash; sleep 5; sudo plymouth quit
+# 5) Update GRUB
+# MANUALLY CHANGE THIS LINE if it already contains info between "")
+sudo sed -i 's|^GRUB_CMDLINE_LINUX_DEFAULT=.*|GRUB_CMDLINE_LINUX_DEFAULT="quiet splash"|' /etc/default/grub
+sudo update-grub
 sudo reboot
-```
-
-### Check GRUB once (only if you don’t already see a splash)
-
-Make sure `/etc/default/grub` contains **quiet splash**:
-
-```bash
-grep GRUB_CMDLINE_LINUX_DEFAULT /etc/default/grub
-# If missing:
-# sudo sed -i 's|^GRUB_CMDLINE_LINUX_DEFAULT=.*|GRUB_CMDLINE_LINUX_DEFAULT="quiet splash"|' /etc/default/grub
-# sudo update-grub
 ```
 
 ---
