@@ -27,15 +27,19 @@ sudo update-alternatives --install \
 sudo update-alternatives --set default.plymouth \
   /usr/share/plymouth/themes/circle/circle.plymouth
 
-# 4) Rebuild initramfs
+# 4) Convert all frames to RGBA, mapping black (#000000) to full transparency
+cd /usr/share/plymouth/themes/circle
+sudo mogrify -alpha on -transparent '#000000' -type TrueColorAlpha progress-*.png
+
+# 5) Rebuild initramfs
 sudo update-initramfs -u
 
-# 5) Update GRUB
+# 6) Update GRUB
 # MANUALLY CHANGE THIS LINE if it already contains info between "")
 sudo sed -i 's|^GRUB_CMDLINE_LINUX_DEFAULT=.*|GRUB_CMDLINE_LINUX_DEFAULT="quiet splash"|' /etc/default/grub
 sudo update-grub
 
-# 6) Reboot for changes to take effect
+# 7) Reboot for changes to take effect
 sudo reboot
 ```
 
