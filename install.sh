@@ -1,5 +1,5 @@
 # Clone the repo (depth 1 keeps it small)
-git clone --depth 1 https://github.com/Crashicorn/PlymouthThemes.git ~/PlymouthThemes
+git clone --depth 1 https://github.com/Crashicorn/Boot-Animations.git ~/PlymouthThemes
 cd ~/PlymouthThemes
 
 # 1) Install the Plymouth packages Ubuntu actually provides
