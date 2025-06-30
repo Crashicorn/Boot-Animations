@@ -5,12 +5,10 @@ Currently contains Crashicorn’s tweaked **Circle** animation plus room for mor
 
 ---
 
-## Simplest Installation Instructions:
+## One-Line Installation:
 
 ```bash
-git clone --depth 1 https://github.com/Crashicorn/PlymouthThemes.git ~/PlymouthThemes
-cd ~/PlymouthThemes
-sudo ./install.sh
+git clone --depth 1 https://github.com/Crashicorn/PlymouthThemes.git ~/PlymouthThemes && cd ~/PlymouthThemes && sudo ./install.sh
 ```
 
 
