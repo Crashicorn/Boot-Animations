@@ -1,22 +1,3 @@
-# Custom Boot Animations
-
-Customized Plymouth boot‑splash themes for Ubuntu (22.04 → 25.04).  
-Currently contains Crashicorn’s tweaked **Circle** animation plus room for more.
-
----
-
-## Simplest Installation Instructions:
-
-```bash
-git clone --depth 1 https://github.com/Crashicorn/PlymouthThemes.git ~/PlymouthThemes
-cd ~/PlymouthThemes
-sudo ./install.sh
-```
-
-
-## Or for Manual Installation, copy‑paste this into your terminal:
-
-```bash
 # Clone the repo (depth 1 keeps it small)
 git clone --depth 1 https://github.com/Crashicorn/PlymouthThemes.git ~/PlymouthThemes
 cd ~/PlymouthThemes
@@ -50,17 +31,3 @@ sudo update-grub
 
 # 7) Reboot for changes to take effect
 sudo reboot
-```
-
----
-
-## Troubleshooting
-
-| Symptom | Fix |
-|---------|-----|
-| Boots to text / no splash | Confirm `quiet splash` is in `/etc/default/grub`; proprietary GPU driver must support KMS. |
-| Still shows Ubuntu spinner | Redo **step 3** then **step 4**. |
-| `label-pango.so missing` warning | `sudo apt install plymouth-label plymouth-themes` then rebuild. |
-| Want to tweak speed / color | Edit `circle/circle.script` and PNGs, then `sudo update-initramfs -u`. |
-
----
