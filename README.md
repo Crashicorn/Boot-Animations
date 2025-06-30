@@ -1,4 +1,4 @@
-# PlymouthThemes
+# Custom Boot Animations
 
 Customized Plymouth boot‑splash themes for Ubuntu (22.04 → 25.04).  
 Currently contains Crashicorn’s tweaked **Circle** animation plus room for more.
