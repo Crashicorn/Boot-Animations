@@ -1,3 +1,5 @@
+#!/bin/sh
+
 # Clone the repo (depth 1 keeps it small)
 git clone --depth 1 https://github.com/Crashicorn/Boot-Animations.git ~/PlymouthThemes
 cd ~/PlymouthThemes
